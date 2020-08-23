@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DefineComponent</title>
+
+    <style>
+        * {
+            font-family: 微軟正黑體;
+        }
+
+        div {
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="div1">
+
+        <Hy v-for="t in MyList" :chy="t" :value="t.id" :key="t.id" :title="t.id +'喔喔'" :data-text='t.text'>
+        </Hy>
+    </div>
+    <div id="div2">
+        <second-component></second-component>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        //參考文章:https://ithelp.ithome.com.tw/articles/10187877   
+
+        // 全域組件(全域註冊)
+        var Extend = Vue.component('Hy', {
+            props: ['chy', 'hiddenVal', 'textProp'],
+            template: '<ul><li v-for="item in ExtendList">{{ item.text }}</li></ul>',
+            data: function () {
+                return {
+                    ExtendList: [
+                        { text: 'AAAAA(全)' },
+                        { text: 'BBBBB(全)' },
+                        { text: 'CCCCC(全)' },
+                    ],
+
+                }
+            }
+        })
+
+        //全域註冊
+        var Div_all = new Vue({
+            el: '#div1',
+            data: {
+                MyList: [
+                    { id: 0, text: '吃飯(全)', hiddenText: '111' },
+                    { id: 2, text: '睡覺(全)', hiddenText: '222' },
+                    { id: 4, text: '打東東(全)', hiddenText: '333' },
+                ],
+                text: '全域文字',
+            },
+            components: {
+                //指定component寫法1
+                'second-component': {
+                    template: '<ol><li :value="val" v-bind:title="title">{{ context }}</li></ol>',
+                    data: function () {
+                        return {
+                            context: '非全域component',
+                            val: '~~~',
+                            title: '局部title',
+                        }
+                    }
+                }
+            }
+        })
+
+        //非全域組件(局部註冊)
+        var Div1_NotAll = new Vue({
+            el: '#div2',
+            data: {
+                MyList: [
+                    { id: 0, text: '吃飯', hiddenText: '111' },
+                    { id: 2, text: '睡覺', hiddenText: '222' },
+                    { id: 4, text: '打東東', hiddenText: '333' },
+                ],
+                text: '全域文字',
+            },
+            components: {
+                //指定component寫法1
+                'second-component': {
+                    template: '<ol><li :value="val" v-bind:title="title">{{ context }}</li></ol>',
+                    data: function () {
+                        return {
+                            context: '非全域component',
+                            val: '~~~',
+                            title: '局部title',
+                        }
+                    }
+                }
+
+                //指定component寫法2
+                // 'second-component': Extend
+            }
+        })
+
+
+
+    </script>
+</body>
+
+</html>

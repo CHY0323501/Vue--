@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StartVue</title>
+
+    <style>
+        *{
+            font-family: 微軟正黑體;
+        }
+
+        div{
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- binding text -->
+    <div id="Div1" >
+        {{message}}
+    </div>
+
+    <!-- v-bind:data-id可縮寫為:data-id -->
+    <div class="Div2" v-bind:title="titleMsg" :data-id="dataid">
+        移上來看title
+    </div>
+
+    <!-- if -->
+    <div id="Div3" v-if="YouCanSeeMe && YouCanSeeMe2">
+        你看的到我表示value==true
+    </div>
+
+    <!-- for -->
+    <div id="Div4" >
+        <ol>
+            <li v-for="vvv in MyList">
+                {{ vvv.context }}
+            </li>
+        </ol>
+    </div>
+
+    <!-- 事件綁定(也可寫成@click) -->
+    <div id="Div5" >
+        <p>
+           {{ paragraph }} 
+        </p>
+        <button v-on:click="reverseMsg(); func2();" >點我顛倒文字</button>
+        <button @click="reverseMsg(); func2();" >點我顛倒文字</button>
+    </div>
+    
+    <!-- 表單與model綁定 -->
+    <div id="Div6" >
+        <input type="text" v-model="MyModel">
+        <input type="hidden" :value="MyModel" >
+        <button>{{ BtnText }}</button>
+        <button>{{ MyModel }}</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var Div1 = new Vue({
+            el: '#Div1',
+            data: {
+                message: '頁面載入於 ' + new Date().toLocaleString()
+            }
+        })
+
+        var Div2 = new Vue({
+            el: '.Div2',
+            data: {
+                titleMsg: '這是title!!!!!!!!!!!!!!',
+                dataid: 'hhhhhhh'
+            }
+        })
+
+        //可在console直接打Div3.YouCanSeeMe2來改變value
+        var Div3 = new Vue({
+            el: '#Div3',
+            data: {
+                YouCanSeeMe: 1,
+                YouCanSeeMe2: 1,
+            }
+        })
+
+        //Div4.MyList.push({ context: '新項目哈哈' })
+        var Div4 = new Vue({
+            el: '#Div4',
+            data: {
+                MyList :[
+                    { context: '11111' },
+                    { context: '22222' },
+                    { context: '33333' },
+                ],
+            }
+        })
+
+        var Div5 = new Vue({
+            el: '#Div5',
+            data: {
+                paragraph: '甚麼意思R',
+            },
+            methods:{
+                reverseMsg: function(){
+                    this.paragraph = this.paragraph.split('').reverse().join('')
+                },
+                func2: function(){
+                    this.paragraph = this.paragraph + "~~"
+                },
+            },
+        })
+
+        var Div6 = new Vue({
+            el: '#Div6',
+            data: {
+                MyModel :'這個是model的資料~~',
+                BtnText :'我是按鈕ㄉ文字',
+            }
+        })
+        
+    </script>
+</body>
+
+</html>
